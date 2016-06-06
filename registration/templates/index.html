@@ -49,36 +49,64 @@
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DROPDOWN<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        {% if user.is_anonymous %}
-                        <li><a href="{% url 'register_user' %}">Sign Up</a></li>
-                        <li><a href="{% url 'login' %}">Sign In</a></li>
-                        {% else %}
-                        <li>
-                            <div class="btn-group">
-                                <li><a href="{% url 'logout' %}">Signout</a></li>
-                                <a class="btn-new btn-nav btn-white" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i>
-                                    {% if request.user.user_first_name %}
-                                    {{ request.user.user_first_name }}
-                                    {% elif request.user.username %}
-                                    {{ request.user.username }}
-                                    {% else %}
-                                    {{ request.user.email }}
-                                    {% endif %}
-                                    {% endif %}
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
+               <li class="dropdown">
+                   {% if user.is_anonymous %}
+                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DROPDOWN<span class="caret"></span></a>
+                   <ul class="dropdown-menu">                        <li><a href="{% url 'register_user' %}">Sign Up</a></li>
+                       <li><a href="{% url 'login' %}">Sign In</a></li>
+                       {% else %}
+                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.email }}<span class="caret"></span></a>
+
+                       <ul class="dropdown-menu">                            <li>
+                               <div class="btn-group">
+                           <li><a href="{% url 'logout' %}">Signout</a></li>
+                           {% endif %}
+                       </ul>
+                       </li>
+                   </ul>
+
+            </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div class="col-md-8 col-md-offset-2 well">
+<table class="table table-hover table-bordered table-responsive">
+    <thead>
+    <caption><b>List Of Chocolates</b></caption>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Manufacturer
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in object_list %}
+        <tr>
+            <td> {{ item.name }} </td>
+            <td> {{ item.description }}</td>
+            <td> {{ item.manufacturer }}</td>
+            <td> {{ item.price }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
 {% if user.is_anonymous %}
     Nothing here :(
 {% else %}
     <div class="col-md-6 col-md-offset-5" style="padding-top:10%">
-        <button class="btn btn-primary">Add a Chocolate</button>
+        <a href="{% url 'add_chocolate' %}">
+        <button class="btn btn-primary">Add a Chocolate</button></a>
     </div>
 {% endif %}
 </body>
